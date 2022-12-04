@@ -1,4 +1,3 @@
-#!/bin/bash
 ##----- Auto Remove Vmess
 data=( `cat /etc/xray/config.json | grep '^###' | cut -d ' ' -f 2 | sort | uniq`);
 now=`date +"%Y-%m-%d"`
