@@ -123,6 +123,7 @@ echo " "
 read -e " Auto Pointing Domain "
 echo "IP=" > /var/lib/SIJA/ipvps.conf
 wget https://raw.githubusercontent.com/jhoker/snutz/main/cf.sh && chmod +x cf.sh && ./cf.sh
+clear
 #install ssh ovpn
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "$green      Install SSH / WS               $NC"
