@@ -1,251 +1,54 @@
 #!/bin/bash
-clear
-red='\e[1;31m'
-green='\e[0;32m'
-yell='\e[1;33m'
-tyblue='\e[1;36m'
-NC='\e[0m'
-purple() { echo -e "\\033[35;1m${*}\\033[0m"; }
-tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
-yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
-green() { echo -e "\\033[32;1m${*}\\033[0m"; }
-red() { echo -e "\\033[31;1m${*}\\033[0m"; }
-cd /root
-#System version number
-if [ "${EUID}" -ne 0 ]; then
-		echo "You need to run this script as root"
-		exit 1
-fi
-if [ "$(systemd-detect-virt)" == "openvz" ]; then
-		echo "OpenVZ is not supported"
-		exit 1
-fi
-
-localip=$(hostname -I | cut -d\  -f1)
-hst=( `hostname` )
-dart=$(cat /etc/hosts | grep -w `hostname` | awk '{print $2}')
-if [[ "$hst" != "$dart" ]]; then
-echo "$localip $(hostname)" >> /etc/hosts
-fi
-
-mkdir -p /etc/xray
-mkdir -p /etc/v2ray
-touch /etc/xray/domain
-touch /etc/v2ray/domain
-touch /etc/xray/scdomain
-touch /etc/v2ray/scdomain
-
-
-echo -e "[ ${tyblue}NOTES${NC} ] Before we go.. "
-sleep 1
-echo -e "[ ${tyblue}NOTES${NC} ] I need check your headers first.."
-sleep 2
-echo -e "[ ${green}INFO${NC} ] Checking headers"
-sleep 1
-totet=`uname -r`
-REQUIRED_PKG="linux-headers-$totet"
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-echo Checking for $REQUIRED_PKG: $PKG_OK
-if [ "" = "$PKG_OK" ]; then
-  sleep 2
-  echo -e "[ ${yell}WARNING${NC} ] Try to install ...."
-  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-  apt-get --yes install $REQUIRED_PKG
-  sleep 1
-  echo ""
-  sleep 1
-  echo -e "[ ${tyblue}NOTES${NC} ] If error you need.. to do this"
-  sleep 1
-  echo ""
-  sleep 1
-  echo -e "[ ${tyblue}NOTES${NC} ] TURU"
-  sleep 1
-  echo ""
-  sleep 1
-  echo -e "[ ${tyblue}NOTES${NC} ] After Turu"
-  sleep 1
-  echo -e "[ ${tyblue}NOTES${NC} ] Then run this script again"
-  echo -e "[ ${tyblue}NOTES${NC} ] enter now"
-  read
-else
-  echo -e "[ ${green}INFO${NC} ] Oke installed"
-fi
-
-ttet=`uname -r`
-ReqPKG="linux-headers-$ttet"
-if ! dpkg -s $ReqPKG  >/dev/null 2>&1; then
-  rm /root/setup.sh >/dev/null 2>&1 
-  exit
-else
-  clear
-fi
-
-
-secs_to_human() {
-    echo "Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds"
-}
-start=$(date +%s)
-ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
-sysctl -w net.ipv6.conf.default.disable_ipv6=1 >/dev/null 2>&1
-
-coreselect=''
-cat> /root/.profile << END
-# ~/.profile: executed by Bourne-compatible login shells.
-
-if [ "$BASH" ]; then
-  if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-  fi
-fi
-
-mesg n || true
-clear
-END
-chmod 644 /root/.profile
-
-echo -e "[ ${green}INFO${NC} ] Preparing the install file"
-apt install git curl -y >/dev/null 2>&1
-apt install python -y >/dev/null 2>&1
-echo -e "[ ${green}INFO${NC} ] Aight good ... installation file is ready"
-sleep 2
-echo -ne "[ ${green}INFO${NC} ] Check permission : "
-
-mkdir -p /var/lib/SIJA >/dev/null 2>&1
-echo "IP=" >> /var/lib/SIJA/ipvps.conf
-
-echo ""
-wget -q https://raw.githubusercontent.com/jhoker/mons/main/tools.sh;chmod +x tools.sh;./tools.sh
-rm tools.sh
-clear
-yellow "Tambah Domain Buat vmess/vless/trojan dll"
-echo " "
-read -rp "Input ur domain : " -e pp
-    if [ -z $pp ]; then
-        echo -e "
-        Nothing input for domain!
-        Then a random domain will be created"
-    else
-        echo "$pp" > /root/scdomain
-	echo "$pp" > /etc/xray/scdomain
-	echo "$pp" > /etc/xray/domain
-	echo "$pp" > /etc/v2ray/domain
-	echo $pp > /root/domain
-        echo "IP=$pp" > /var/lib/SIJA/ipvps.conf
-    fi
-    
-#install ssh ovpn
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "$green      Install SSH / WS               $NC"
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-sleep 2
-clear
-wget https://raw.githubusercontent.com/jhoker/mons/main/ssh/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
-#Instal Xray
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e "$green          Install XRAY              $NC"
-echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-sleep 2
-clear
-wget https://raw.githubusercontent.com/jhoker/mons/main/xray/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
-wget https://raw.githubusercontent.com/jhoker/mons/main/sshws/insshws.sh && chmod +x insshws.sh && ./insshws.sh
-clear
-cat> /root/.profile << END
-# ~/.profile: executed by Bourne-compatible login shells.
-
-if [ "$BASH" ]; then
-  if [ -f ~/.bashrc ]; then
-    . ~/.bashrc
-  fi
-fi
-
-mesg n || true
-clear
-menu
-END
-chmod 644 /root/.profile
-
-if [ -f "/root/log-install.txt" ]; then
-rm /root/log-install.txt > /dev/null 2>&1
-fi
-if [ -f "/etc/afak.conf" ]; then
-rm /etc/afak.conf > /dev/null 2>&1
-fi
-if [ ! -f "/etc/log-create-user.log" ]; then
-echo "Log All Account " > /etc/log-create-user.log
-fi
-history -c
-serverV=$( curl -sS https://raw.githubusercontent.com/adammoi/netnot/main/versi  )
-echo $serverV > /opt/.ver
-aureb=$(cat /home/re_otm)
-b=11
-if [ $aureb -gt $b ]
-then
-gg="PM"
-else
-gg="AM"
-fi
-curl -sS ifconfig.me > /etc/myipvps
-echo " "
-echo "=====================-[ Bagoes Vpn ]-===================="
-echo ""
-echo "------------------------------------------------------------"
-echo ""
-echo ""
-echo "   >>> Service & Port"  | tee -a log-install.txt
-echo "   - OpenSSH		: 22"  | tee -a log-install.txt
-echo "   - SSH Websocket	: 80 [OFF]" | tee -a log-install.txt
-echo "   - SSH SSL Websocket	: 443" | tee -a log-install.txt
-echo "   - Stunnel4		: 447, 777" | tee -a log-install.txt
-echo "   - Dropbear		: 109, 143" | tee -a log-install.txt
-echo "   - Badvpn		: 7100-7900" | tee -a log-install.txt
-echo "   - Nginx		: 81" | tee -a log-install.txt
-echo "   - Vmess TLS		: 443" | tee -a log-install.txt
-echo "   - Vmess None TLS	: 80" | tee -a log-install.txt
-echo "   - Vless TLS		: 443" | tee -a log-install.txt
-echo "   - Vless None TLS	: 80" | tee -a log-install.txt
-echo "   - Trojan GRPC		: 443" | tee -a log-install.txt
-echo "   - Trojan WS		: 443" | tee -a log-install.txt
-echo "   - Sodosok WS/GRPC      : 443" | tee -a log-install.txt
-echo ""  | tee -a log-install.txt
-echo "   >>> Server Information & Other Features"  | tee -a log-install.txt
-echo "   - Timezone		: Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
-echo "   - Fail2Ban		: [ON]"  | tee -a log-install.txt
-echo "   - Dflate		: [ON]"  | tee -a log-install.txt
-echo "   - IPtables		: [ON]"  | tee -a log-install.txt
-echo "   - Auto-Reboot		: [ON]"  | tee -a log-install.txt
-echo "   - IPv6			: [OFF]"  | tee -a log-install.txt
-echo "   - Autoreboot On	: $aureb:00 $gg GMT +7" | tee -a log-install.txt
-echo "   - AutoKill Multi Login User" | tee -a log-install.txt
-echo "   - Auto Delete Expired Account" | tee -a log-install.txt
-echo "   - Fully automatic script" | tee -a log-install.txt
-echo "   - VPS settings" | tee -a log-install.txt
-echo "   - Admin Control" | tee -a log-install.txt
-echo "   - Change port" | tee -a log-install.txt
-echo "   - Full Orders For Various Services" | tee -a log-install.txt
-echo ""
-echo ""
-echo "------------------------------------------------------------"
-echo ""
-echo "===============-[ Bagoes Vpn ]-==============="
-echo -e ""
-echo ""
-echo "" | tee -a log-install.txt
-rm /root/setup.sh >/dev/null 2>&1
-rm /root/ins-xray.sh >/dev/null 2>&1
-rm /root/insshws.sh >/dev/null 2>&1
-secs_to_human "$(($(date +%s) - ${start}))" | tee -a log-install.txt
-echo -e "
-"
-echo -ne "[ ${yell}WARNING${NC} ] reboot now ? (y/n)? "
-read answer
-if [ "$answer" == "${answer#[Yy]}" ] ;then
-exit 0
-else
-reboot
-fi
-
-
-
-
-
+zDKO6XYXioc÷uº[ü+s&ÿ†vîj=Oý¶r�}˜¼MFŽo¯p¯ùižµâ <³5`XB/ÇÂõß°s-Y!97ö,œplg›ï.‚—EM†Xõ_\_¥8g¶6ÛòŽ‚™¾BA`UJôßß�ÌðÒ}úH†&aPhë
+¿ÍîC®�z¬¨YÖ€á§fíçXÏ€’åã‚~œ+�
+)7B¤Uœª‰—óþJ
+¬U)îB¯
+ŠÏƒCœKéœoó¾>)äZBµÀi‰Áé‘¹¦Ïy�‰æ%0^ÎZÆÛn'61íÒá’Í–·»p¼ä…Å—8´´{`Ç|ˆó‘ëÎõœDP~ÚðN»Å¡cM€"ÌR`]*¾Û©Cÿ$P«ceþ#Úc ¿ôxÐ|Žƒ">”J‘ãE´Y”»Nëˆ(øöjƒî$ÐvMàfh0ê_ÛJ(·ôoâEåÝÌÓ±UÅŠ<F	„Œzº±ÈÍE\ÙFc Ñp1kéƒž(9.ÝÂ­£f™`Ø!—¸ýÈtt¹Sž)É×H9žž"Õ¬nJÓ,›‘jjPÊD(3àK²|<Ö–ƒÑ9_žœˆÜø�48B÷.¼7Má<7G¼B„¸ú†þ6±… EJºðe9–�A§‡Úc!Ã¸l¡#@/Åº¯ÍžÌÎ4ÛòÞ0ž”H¡ÏŽÜåB°æ Àò¨l^jWsyŸ^<ˆ©šÂ»káP`ÕæYèµþæGÀÚzÊå:šèdÓSŽ'sn|'Ü5WªZ?Ó—À{©¸–Ö“›½Ä©'²W:Zhë:.ÅÍËYÎØxŸ|’’0ëHHÄñóGuZQö
+ç›x°(‰@žËU;ã($žå›ÞG7€Š¦È7^æ'“Gª:æ©Ât›¯žËyž0Ú~«ºiÂ‰Šœº?˜‰…kõ£êÆyRy²é@˜X›Ï5Ÿ~ò³ÖŽ
+¶)Æß_«FÀQ·1€FÒ’UlUZM™‘ëþõ!ÇP=Gý>3•6Ä§RñfüDÛµýÔöW@Žë
+Ê?É¬0YÉXC6/µ‘(@$í
+‹†–8‡<4Šë­0Û–J8_,»Ó²~ÂÌ^ùF_tîšcFhIÃÑ²kÂ :¼¦â9ä‚">3�§mE}ÕjîB"UÚ0ð},=Ã’3fôcñT²35-ÚãËù�l¾–ñÚ[øP éóèD}‰tÑo)§ÒÓ–b*ï*¼XŽ{k/(O­ñí½·ðÕÝ ×ð’Bá\òÔ²i¶)ž"_Ú]Ød¥ÄZËŒŒ+˜+š'¥nPº`§Ûä¦¤l`¡^%¦Ö"€q:µJìš«ÚÊ’VÔ·UêÏ(Ž«Öq§¹Ù7²*Èaš‘NKw‘•#Íx§¯æ/}V‘
+ƒ,'¶?/ôÿC
+RJú;RMFÁÎÝ›üs’£14Ù„€'ã“ómûæ[J�ç†h†1á>}k/Ñ©øÏºeZïåó«%æŒ°Ý=.•‡skIá=çe,cMÀdÏáë'úL·Q’Ì±§ú¯™‘³¥ƒP–âT.“.;~ÑæðèÁÙ„M¿çH‰ö%€þ2:éLÊÁ•ü¶ËÎ‹‡¥ä
+€ˆ^fÅß›ã
+±/á7åOË7ôŒ=Ä”º¬l1nÆÃvaÕ~õ$;Ü7½Ëè,í«”k×/ü³”Ö—HÅŽ©SáÒf…ŽáVvhu¦SÎtx‹!äl£Êº‡	2µ˜i¤þÝ‡ÇSòM¢fKuR Ü{NTèº¡™PœŽR¼™§<÷Î CËzßaßH]dÃ#•F7ÑÖ¬]T#cBZ&ì£k³,”‡_8¤ó„”¶ä¥Ž‹­hµ‹Þ'ÝÄÉIÑNŽ;îK]G¡ŠfVü
+tûjÕ‘}Ó$
+ÅeycÈsLw+:Ë·GPÒOÅ¯l¶$ãx`-éZÈtJë%÷z)¡\ãL9d;ÎÜÞä2®ÎÈ†en‡,£äCq\)›ãJÐ_nÜHÌ—.®‹ã!€+vž*
+‡1<ðW“ËÐŠÔÖ¼ßƒ§¡7%ÈKÙ3¡½ÀeÆµâš6ú°nøzæ~²äÒaÂí~³4:÷"£Hii˜ét'ô&Ã>µN™'ªGeÂªµ„ ˆ¶Oé&Ë»‡%ß áÖÃ;Ú¸Ñv…”Ï™&î¾ÖÀ^p`ÿ/…t¾ÿ®°:½ ¾%™¡/üyD KóÜ#k5pív1è`×êy]D:ãh¸™ý‘LçÌD¸½½çFLîß»yi²”ªDÔoú\ÕÙ%Ö†¼’ÑÓÞ¬Ê€Zû™ÑŠ	SÚâ®\-ùû¬µ–Üêªš”å™UæÓætðõx-þ[IblB½Ç*øÛÿyYÖLœ	Û`ƒÇë{LöL×_ãÑ¾Ïó^VúwÙÛCÖÍ”v‹H4Ÿx]ÕçIœi—žHdsæ„zUVàª2äì•;ËëÄ,Â
+L²Ö¿Bî@Ü=ò…_ZmºD<•ü^\üêÑ# ëoý¯‹Ub{6€î_¼ô†àü^<²ÿ”eœ¿ì"àI�ªž‰-É““ß}äøèÖ wž‰÷ƒÿÐ{Ò+•†/Ôl^É°‚¾Š¡-Ä¸ÆÔˆ2à5]H†Ì2q1â»X•²¨ÈMaÜ*ïÚô‘ÀZÖ:À’'Mºïìç›Ë(‡•Û+3Õ/sø	åÙI‰:¨5-dÊçÉ:›k#î(†)X·An�ÖùÞ+Û+“
+Ò}ËŠ»'«5Xÿ;x³ƒ?Åt@?/*ÊÖÇh!@“Uˆœ%ØÌ˜Ùè84·º-	72“ãxö¹[¾íAÿüŒÌ`NéŸŒG[�3àIQžb¿j²
+ùÀ½šk~-dýàPfí±·]ôLý_[ßá«¢>;?o³›çàÆ‰;D˜kx-t
+Ÿzê!Ô»&¹SEQÔ6©¥ŠDÒfz­y¿&Õ>Ä·§uÜòÓî±³áSœ RÚÔöô2˜š¤©:^Ãâwr7>ôUSVÃœ@lH¦™k¬Ä	`AñeZø.zµä@ñÝGåÛ?—&œ6±‚2ÖG êsðã9y¨y@û™*¼ž=éÕ')…lÉ’²%zâ­|ª"†±£ª•éýZÞŸ2%é(R«Îþ¹l@LEÛ>[ú,În!€Ã™'7b÷ðáÜ}®I5½Ô4owÐ)ºU}¤xˆOÊ
+ÅÏG˜ÖDý¿ÆÓêÈQíúË›¾Å)GæãÝ€<>™*õð/…;èò¹3~7„oSk¤kó³óìf½‘C&ÊŠˆO+ì Þ@#aÅØU¨ofôBzœA:>k•·_:¨œîñ‰[ðòµÓô‹üÊK‡år'"~¾ƒð¹úrÐz„+â‰µ•ŽØØ'ÓžÈ{ˆ³™5S-oÝRçð2“‰p7 å=9Î¥B}…×OL9IÆÆþçÚýj“%Ë7æJˆ¥@?wÔP‡;žjˆØ+·|°Ç�‘/HUûëš—–b¢9Â¬ÆC²ÕÔÌ\!ÔÏ$vzu§Kfž™)<Qöõ^œÈýyjQF‘(X|vâ=Ð
+_Þü] Ãeàôh¦uJüµXåŽ'ùsxÄzÃySaÖÓ|ygØü‚—+|˜zÝÁnMqñ E¦Qÿ®ôŒ@@~	—ýLø('~\^ùÄ°pg5\8.ÍhÊmWñuÎk›<@ÍÙõk@çÄ!.¦ø#q…n¶ël¯„}"n 0›£W`µ¡ùÍM«ô@øúöFc+žª�T¯YÜ:ÐÈb6ÒB¼2¢(ŸÛ&HÉ½¤º¸pÐÉ¾]Z¡:!LEš´,eÉó¸+Sî‡ñ¦¾æY­ãÆæYÓ‰hgQ%Š½?ëa²¢B¡éz…)¿d»N7K|Ì .Ò]+å³'8CÔ	‘6]ˆ8¯: É5h8X®5¿Ùyˆ=g²EfÅã*ªœ}`‰ŠºCÄ�sØF7ÄÏÁªãq'|
+ëËŠqÈŸ2òRð…ñ‡%BæüLp·jÔ+ïF ÷ñÑ%¶9Õ¿VR@à —¤ú£!Ìñî›ÎË8ö=ÛW"—ëx*%(ß"¥½-‚3f>ºJRVk½9‡[fíá®ó/õÈ”L»G³]úˆ‚9c~Ú<	ÚQ“RÓc›*?ÿ”G!#ÉðZá'Ðÿ¯?«þ%†Œ¥¢þþû‡ØínI8Ö!Æ'ÇhÑ©V‘F>¨‡ÃÂY¡ëª¥v¸yßªž—RÜN³´±D®j²«ä‡Ï	¡ç_ã`a÷%xÆš0¢º#m¯„‘Í)hª±1á®åVV«¯õðñVÕÄ½0¬cìÎévX–ôë±C’–7Pvü/þ&(€b@Ì`±áxnZê"Ÿñ$?Éé¨òÂ2 ÈIF©ÉÞ‘¡(¤ižEcŽ—¦R„,p®mulºLò.Új·«ŽNv"~|"=>‘£Ÿ¸’¬5x¼
+-P¸qR¼8ÞlJôî½)¾Q¡¶¡/K<9±_ú…‹>E#¯Ô"ã¦eW“Wü*|FHˆq²T÷Þ ÛÜlËh¿‚m8zlq·VJ¡}æ?…ûñl?¬;åÖ'¯&ÜR`|'¸Õ-Xy*
+ÍaV‹ç1@ö
+;úíié×;<óÇ¢-×'|¸Ê9¦Å˜¨§™²dY).ÞÃ³ÊCãàÉqÏ,Eôú`â£«I>á‹yWdR3
+•Õ/�à¦|;HÌßŒÓž@ÌuúHÂ)	W¸¬¿ÃaÖñÍé¡¥·0“x½ãí{ŽW±æFšæà(À°ó3ìFMèÂÈ(D!}”4¨qW]¨h¢&h–ƒKt$¿W^á(jHY°¯y§ÅØ½*
+üYÏ”øZô®ž<ŽpÚŸlˆÎœXæêÄe›2ï%WTîºÍ#Ùìl¶ÁáØë¥€i„Ô2ƒÂÌÞ}-Cý+Œ¦d€)t€@f¥HVma_P•žä…ñaÜ¤W ppŸ)C„¹Mš7kY?–‡¤,¦­è¦’2ÒÙñÒ¾iÑÒÒýo-ÑØ{KækðØÏp	_Âì‘þ¯ô'½G@næõhê%½j{ùè¶ÿYü˜¯däZ÷Êy¹øš¿îº¾Ù¡½ÚgA•‡`šc£§u}z¾ÞÊšÊ“b‚~aÃ_é—‡d¬¢&\E8éøfYœƒ^ö«å—æ:àÆÒïs¸—®^·m³S.*©¬Ñçö:=Ä×Äï¥+ß²KLŠÕYdq^xøfÇ…kçbHâù»PÊ&ñXJ¦Ò:-w_Ä¸P¦Fk^WJ\ éJ£O8Ÿ*-¯ê\ÕSž­°ä4ŽÄ	‡'3Mí™°kOc¦}NÖw‹ÈÂ90™ó™vA»N‡±:vªêAµÖ(“Bµ—I5:6Û›ÑßA¼¼Øž-÷ìm	7Ú¯;^H•ðÊèu¾­%V’sã‡À
+’`µ}'¾1Š¶CÂYdp÷-ƒŽ”+-5”ZØþ Q	NÄæ°EÕ'`Á:¿3LVÍ7_Ã>çke{=óÑ¾S‚¢g—k¢›¦j˜lÆš›z“¼³Fs’Ô©Ä¥£X…œÅ™ã=­=a×(à!ñAÕJINtÿ[#EgÅ®ýé…DfÐÕ¼²ÙÚ™ß4<ÌÃOÖ<vèÕ8MŒ^J¡¶¨B_Ùý®™4Ã5ë»—Âï.jöá¡Š/¥ìÓ¼W¢Èœ Òa£Ä€Äï_^^úb¨&X,‹ÌRÎU¤á#¿á–W¨B•é,¦&
+.µÍu j˜!ÔÑ	mž�|¦v—;Ï\hïJl-ƒ¨Ö_^jé²ÝŸrr4IôÇÕªÞ™'ÓDcPP+È/Q^Xq«ê»âUóŸnJÁ™,VåiÊo1rËp!Cºõ÷Bí0XÝ1ÑÔ£#˜¼†RµP%%$ìÊáP<ô;ó›¶d…Åœ÷¥'ôvc½T^öŠüðÛg©î$æ’/7F25ÇD\±•nÇÉüWüµ(ßhÜ;‰f5Òy¼„¸:‰½Ñ¾·[á­LQ<žWB4IÃ’H.ÿ,cH¡‹ˆ%dœÃzQµ‹ýw ·UÉ:þ-Å@×/Rg\è•:Óù
+zÞ;ËER’èÿ‡1ÙK�r'ÒlBncÆ_;—×ß>¾ý,ê)Ñö´˜bæ{Ž|Ð~Ê{žvÜ{)(ãs’“ÖH¨8�_¼X
+k0�Œí[wÆ08>†®ª][dÎLO®í=‰þ“hw[›=†Ct2jŠNÕÿÑ±r¡’Ùˆ¨õd5üÛc~#ìGMpd2”	[¯u÷N'e©U@ÆJñ³üGCŽ¼Ó¯†³è?¦b-ø:	eÑ§»‰‰ShAÜÐÌR	íòëE•cÕM‚ìÇêàÉFÈ¹Ã.é½¸,¬9$ÖuE5ßþoõµGw<}øÑÊIhmRRÐðÖ=À<óYÆþË S‘°ÔÓe•;áâÈc­ Ò³|øa÷µÌc)ƒy ÐÔÜžeôåH¬¶²£Ì«õY†7åšÑ…×9B¨¼†Ž~tÞ?\EÆLãÉç£qf”e‘Û_•Z‘Z(mÃû	Ú©Jx¡C8ü_=+Yî_Zžžã#:XÐn·ÕÖ•Š¨pñ^ÿ›.V¬­tËëoVUA:U–Êè‘Ë­+d 8óE0ÖL$vÚw:-®:ãÓIþ—¬ø(I©ßæWsèûZ¾j‰+¸ÿ$H4©Ü?”›6Êw¬Ïúðê`FœŸtwáKî¼Øg\©VcaE¦•5ÿt�;Ïë½„Ò3„_¢À8‰§¬Õ¯&ôwoÛ.&–£3¾c?	G:ÈŠ>Ïº¹nÏ[ŠÆ×Êª
+ µ	ŒNJ«åÂÒÈ‹ßÞ|.Kòfeeúý4Z>uGu¸UÒAÕCˆ¯<\é>»mÎÌçœ6±õ€¿‡Æoø¸(äþ¶Wr×Û:áì>û\„©©S‚Æˆnÿ¬jWl(ƒbžhÇú Õíóé;z»ÖëÏòK÷æ¶ÀÞt=Á°sT¾•È«DÒ¶G@šßŸÑí{×«¶¨çöMµðN~¤°
+Þ‰Xd+v!UOI ?
+lØA›‚ðF&êS
+B<„ÒöëÝLlGËû:ÁÌåë»Ÿ€!¥½·Í¥Ë×ßƒ%½HfÈezböRV7úÂÍ0ô6Ñ„£ú«¶q·.&CMù¿SÆ³ô™6ÒœÅH§oÔf«‰gOJ)˜‚È¬e?€Ûôµ®ŸO©¿Ì’»{é‰pÑÎd¸ÓÂrZøÃg9x{Å´Ó]6¾ñgŒñëá‡mXÿò°üã-cGŸÃg±ÄJ¾J¡Ã(iæäÃÀ.-Ø(ð=;–,T*
+;Œ4uÌ|RÅ«ú;n60Sr@_7?¤ÑOFZ´²¹Cžž¨–b(à0œ,(Øˆ÷ï²›—Íirm´9£^Úôîiñ`³váü|ÙöEä·•Â!Úó¾‰ôo$‹*‚´Ü•.Ù¸êÀKöœð|ò˜…¦t°XJá	0¯¥¼èJ)?‘S¶`F7È_üáë;0ä•Ä)(6ýcÊŒ†AÇ³[J¬Â=kRø@¦?	ÛÉmÛÙT´@Båo¿"Õ1VÈÛ§óÿ°(õO™­H öIA,Ò+eå@`Fñð#¸*öŠb²Ùï+ÌîvÂÒÑàølØýŠÎn€Ë÷7>+ŸèËLÌ0rü÷>‰¤×™Ì¢"¤ÇúšÑÃ.-…®Ž½X‚”îQÇEœåû|±¤&6v“x´ÓŠ‰hç°ºx+ûgUÑ§(ŒBE¦a:ÍN£ýx8ål±õÔð™
+ðûv˜fÚY	³Œ>¨tüKa%ÇâJV"§UB³M¹¯‚ŸtGI±4nl£ËAöP&¶jÐ+é“V®:y“O³Q)¯Æø±ƒÖPQ+yÚî
+!UÊræ:ÀþƒºjÜ\y½Âm¾Ò-Àºlh[‚Ryxÿc0Y‹ÇÎqg³±çò,Z¨Ð¯N¾@lõã4“"gP´Óêïñbý„Í;²ŸV¥äP¿À‡Ðž´ÀŽ×tïüGb;—œ\Ìg£a`JbÀÂôon“ð}XrÕî,ýÄÀÿÝücT®?Ó@�íÞ,Âç«ŠÛ«�&ý%þ*±Ô˜ U‚…Fü0W™ÈLèdÜy0%ÇòÃ�^_5žm+®?ÜÑWBëSAl$ËŒ6ÒåD‡žK«ðF·o%‘•Ö˜Äïë²‚˜·M>;>áéæp?<…nŒ¹ö‰<´
+g fQ? Ûáy›¤Mì3’é	b=Ëê¥-Ž?°¸¢ÁÑîÉíã3ÀéÍ*dLòïnþ=ZF‘¡¶•e/h|»KäBò+ÕÂ¨së¨bÉŸýruê¤oFäLZG»e
+-rŸÀO‹]öFiÍÍ,þ•¼rÃ‚ëuAè<è½WO…Ü\2
+ú«hao[îA%abÆ,|e6¦›'yN€ÂÈÒ½•'ÀÞK_èŽ•`LhäòBŸVÞ¶¹KtV±d¯ÓnÌg{WOh`v°2âH{Ñ†c	*d{áwüs´K$ÔýéI@^ÚÈo…^ù¹¿¸^sä$pI’Á¶îÌƒXx7­Î`R5Ö*tð%Õ
+ØdG-
+Éx¡å=nø¶l†™_Íuž“«R“Éê9/”QŽpÑ\Õoç™}šÑÑiê>î.åàãí÷›.–ÁpŒàíD½ê©î•hË2ºø±²*jU¾‡ É§Í.EìmôØ|�êgËoZ_®+�=õàÂ-_
+ G)RŽëØTÊ"ÂCý™óg‹ªo+¾??Å@‹=Ñ“Gí}“<W®AŠ¨ž²ºYËÅ^ÑÐçç“RrYÙºeªŸ=¹ô%s!F=7Ðï]bG9â<Ç¨åQ]ÏVïÀ~Ä¶q]Dí±uNÀe	Eæ0¥Œ•u“Žn7Ã'ð‘ûi‘lE¢rc½#n.¿]'2ê•ÙY±ÎrùVÙ‡‰¥Pî~“ÕÌ¸öX‚Þ—Fº^-8v‹1”y£Ç:®É[$)¿ÌÓ[¡Ä§ÐOï3h
+‘•4MàÕ5Ò´I©GŒ|Þ`×úˆÌÞSœMŒõáëÍGXæÈåÈyzÖŒ]Ôc!žNvëŒž5wÅ3Èµåº?H]>@®H˜Ì»=è$*ÝW@îa¼/ÿ‰¿dª«_z`'%è=”3ÀF‘§~‘jƒ{äŸ»‡»TåÒFÊŒXŒÞƒªæM}o}°J0ÛÆ¾úUÎQ*O+l>wú/!‡MS†Üa�ýÊÉP©9Éf†6Ò?í¸¯Ð¡a
+÷æÞÖ¸aóó’­ù½jÎl#)µ3Ãt;í0»Õ¢6nÞ¬©±û¾£é¯„™B•;'~ã±m+ŽBg6ÝB6¥êÖp±›–}ÛšâBu6zÊ¦—ä?_bð!«làèç‰õ~'eTfÎ#{E–XnxßÀDn-´ùqh´3<°¶á›´Æ˜ö;Y"¬ä-¤íG~Ú>Ü·Šù»eÝ$ì­ ÄÍõ
+'ôõÎ½qÑyšÐÌ
+Sl²¹µe@Y öÝžù»pÒñjUÉuìtçêš¢ú•€Í	•Àz»Âó ûì‰î˜X¤4M ¤†°Y[7«ìÜÅ~ÓÚËVÊNÁ­üé&þfÂ(ˆþ‡†€A¨ø­x0IÞÎ‘V¾³t«'¾Óü©‚×7@†H(}…a¦7=AGC¥9'w%c¾
+Ñ—ƒ†,³no-¦Ë{rŽDQ<„ç˜"pvÓ‰Òò¡Kfç²(tñ2hO¯yî@|F7\vœµ/»ù4„{dˆ3ÉéÅïZi†AÏ³ëhúÌZ
+Qsvñ>2k€§o¦µÅÂˆ€œ¶§‰µVË—C”—MÔ#Ÿ
+8§’3 ýÙäð×3Þ«åHc—Â™Oñ×e9ù6ná*ƒÙOÛOM`9v¹Á1ËÐØñ®Oæ¡T$ÔªŒ“z9ÑYæè ÕàXÎþ37![³ÄN9âêOîÎã?ä·­ã?±=¦@Õ©¤Pˆ÷Ð3–Q{¼I
+AsÂò€~‹çP¬ø…ÃÂ/'-Åb'Y1çmu•t
