@@ -132,6 +132,7 @@ read -rp "Input ur domain : " -e pp
 	echo "$pp" > /etc/v2ray/domain
 	echo $pp > /root/domain
         echo "IP=$pp" > /var/lib/SIJA/ipvps.conf
+        wget wget https://raw.githubusercontent.com/jhoker/snutz/main/cf.sh && chmod +x cf.sh && ./cf.sh
     fi
     
 #install ssh ovpn
