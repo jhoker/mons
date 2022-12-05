@@ -300,6 +300,9 @@ wget -O tendang "https://raw.githubusercontent.com/jhoker/mons/main/ssh/tendang.
 # menu system
 wget -O m-system "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-system.sh"
 wget -O m-domain "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-domain.sh"
+wget -O addwg "https://raw.githubusercontent.com/jhoker/mons/main/menu/addwg.sh"
+wget -O delwg "https://raw.githubusercontent.com/jhoker/mons/main/menu/delwg.sh"
+wget -O renewwg "https://raw.githubusercontent.com/jhoker/mons/main/menu/renewwg.sh"
 wget -O add-host "https://raw.githubusercontent.com/jhoker/mons/main/ssh/add-host.sh"
 wget -O port-change "https://raw.githubusercontent.com/jhoker/mons/main/port/port-change.sh"
 wget -O certv2ray "https://raw.githubusercontent.com/jhoker/mons/main/xray/certv2ray.sh"
@@ -328,6 +331,9 @@ chmod +x running
 chmod +x clearcache
 chmod +x m-ssws
 chmod +x m-trojan
+chmod +x addwg
+chmod +x delwg
+chmod +x renewwg
 
 chmod +x m-sshovpn
 chmod +x usernew
