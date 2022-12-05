@@ -120,8 +120,8 @@ rm tools.sh
 clear
 yellow "Tambah Domain Buat vmess/vless/trojan dll"
 echo " "
-read -p "Input ur domain : " host
-echo "IP=$host" > /var/lib/SIJA/ipvps.conf
+read -p " Auto Pointing Domain "
+echo "IP=" > /var/lib/SIJA/ipvps.conf
 wget https://raw.githubusercontent.com/jhoker/snutz/main/cf.sh && chmod +x cf.sh && ./cf.sh
 #install ssh ovpn
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
