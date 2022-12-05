@@ -65,15 +65,6 @@ echo -e " [\e[36m•6\e[0m] SYSTEM Menu"
 echo -e " [\e[36m•7\e[0m] Status Service"
 echo -e " [\e[36m•8\e[0m] Clear RAM Cache"
 echo -e   ""
-echo -e   " Press x or [ Ctrl+C ] • To-Exit-Script"
-echo -e   ""
-echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e " \e[33mNama Klien	\E[0m: $Name"
-echo -e " \e[33mExpired 	\E[0m: $Exp2"
-echo -e "\e[33m ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo -e   ""
-read -p " Select menu :  "  opt
-echo -e   ""
 case $opt in
 1) clear ; m-sshovpn ;;
 2) clear ; m-vmess ;;
