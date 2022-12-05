@@ -136,7 +136,7 @@ echo -e "$green      Install WireGuard              $NC"
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 sleep 2
 clear
-wget https://raw.githubusercontent.com/jhoker/snutz/main/wg.sh && chmod +x wg.sh && ./wg.sh
+wget https://raw.githubusercontent.com/jhoker/mons/main/wg.sh && chmod +x wg.sh && ./wg.sh
 #Instal Xray
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "$green          Install XRAY               $NC"
