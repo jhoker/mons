@@ -120,21 +120,9 @@ rm tools.sh
 clear
 yellow "Tambah Domain Buat vmess/vless/trojan dll"
 echo " "
-read -rp "Input ur domain : " -e pp
-    if [ -z $pp ]; then
-        echo -e "
-        Nothing input for domain!
-        Then a random domain will be created"
-    else
-        echo "$pp" > /root/scdomain
-	echo "$pp" > /etc/xray/scdomain
-	echo "$pp" > /etc/xray/domain
-	echo "$pp" > /etc/v2ray/domain
-	echo $pp > /root/domain
-        echo "IP=$pp" > /var/lib/SIJA/ipvps.conf
-        wget https://raw.githubusercontent.com/jhoker/snutz/main/cf.sh && chmod +x cf.sh && ./cf.sh
-    fi
-    
+read -p "Input ur domain : " host
+echo "IP=$host" > /var/lib/SIJA/ipvps.conf
+wget https://raw.githubusercontent.com/jhoker/snutz/main/cf.sh && chmod +x cf.sh && ./cf.sh
 #install ssh ovpn
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "$green      Install SSH / WS               $NC"
