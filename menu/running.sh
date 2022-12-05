@@ -1,8 +1,8 @@
 #!/bin/bash
 # Welcome Information
-# Edition : Stable Edition V1.0
-# Author  : Yth Bagoes
-# (C) Copyright 2021-2022 By Bagoes Vpn
+# Edition : Stable Edition V1
+# Author  : Ipulsnutx
+# (C) Copyright 2022 By Ipulsnutz Vpn
 # =========================================
 
 # // Exporting Language to UTF-8
@@ -58,6 +58,14 @@ if [[ $stunnel5 == "running" ]]; then
     status_stunnel5="${GREEN}Running${NC} ( No Eror )"
 else
     status_stunnel5="${RED}No Running${NC} ( Eror )"
+fi
+
+# STATUS SERVICE WIREGUARD
+sswg=$(systemctl status wg-quick@wg0 | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $sswg == "active" ]]; then
+  status_wg=" ${GREEN}Running ${NC}( No Error )${NC}"
+else
+  status_wg="${RED}  Not Running ${NC}  ( Error )${NC}"
 fi
 
 # // Dropbear
@@ -146,6 +154,7 @@ echo -e "OpenSSH             = $status_openssh"
 echo -e "Dropbear            = $status_dropbear"
 echo -e "Stunnel5            = $status_stunnel5"
 echo -e "Squid               = $status_squid"
+echo -e "Wireguard           = $status_wg"
 echo -e "NGINX               = $status_nginx"
 echo -e "SSH NonTLS          = $status_ws_epro"
 echo -e "SSH TLS             = $status_ws_epro"
