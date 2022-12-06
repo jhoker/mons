@@ -278,6 +278,7 @@ cd /usr/bin
 # menu
 wget -O menu "https://raw.githubusercontent.com/jhoker/mons/main/menu/menu.sh"
 wget -O m-vmess "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-vmess.sh"
+wget -O m-wg "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-wg.sh"
 wget -O m-vless "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-vless.sh"
 wget -O running "https://raw.githubusercontent.com/jhoker/mons/main/menu/running.sh"
 wget -O clearcache "https://raw.githubusercontent.com/jhoker/mons/main/menu/clearcache.sh"
@@ -326,6 +327,7 @@ wget -O sshws "https://raw.githubusercontent.com/jhoker/mons/main/ssh/sshws.sh"
 
 chmod +x menu
 chmod +x m-vmess
+chmod +x m-wg
 chmod +x m-vless
 chmod +x running
 chmod +x clearcache
