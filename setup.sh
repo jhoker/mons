@@ -137,6 +137,10 @@ echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━�
 sleep 2
 clear
 wget https://raw.githubusercontent.com/jhoker/mons/main/wg.sh && chmod +x wg.sh && ./wg.sh
+clear
+#Instal L2TP
+wget https://raw.githubusercontent.com/jhoker/mons/main/menu/ipsec.sh && chmod +x ipsec.sh && ./ipsec.sh
+
 #Instal Xray
 echo -e "\e[33m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "$green          Install XRAY               $NC"
