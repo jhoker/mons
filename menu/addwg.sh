@@ -103,7 +103,7 @@ echo -e "Port     : $portwg"
 echo -e "Created  : $hariini"
 echo -e "Expired  : $exp"
 echo -e "======================="
-echo -e "Link WG  : http://$MYIP:89/$CLIENT_NAME.conf"
+echo -e "Link WG  : http://$SERVER_PUB_IP:89/$CLIENT_NAME.conf"
 echo -e "======================="
 echo -e "Script by IpulSnutz"
 rm -f /root/wg0-client-$CLIENT_NAME.conf
