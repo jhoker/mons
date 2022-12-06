@@ -17,18 +17,7 @@ LIGHT='\033[0;37m'
 # Getting
 MYIP=$(wget -qO- ipinfo.io/ip);
 echo "Checking VPS"
-IZIN=$( curl ipinfo.io/ip | grep $MYIP )
-if [ $MYIP = $MYIP ]; then
-echo -e "${NC}${GREEN}Permission Accepted...${NC}"
-else
-echo -e "${NC}${RED}Permission Denied!${NC}";
-echo -e "${NC}${LIGHT}Fuck You!!"
-exit 0
-fi
 # ==================================================
-# Link Hosting Kalian
-fisabiliyusri="raw.githubusercontent.com/fisabiliyusri/Mantap/main/wireguard"
-
 # Check OS version
 if [[ -e /etc/debian_version ]]; then
 	source /etc/os-release
