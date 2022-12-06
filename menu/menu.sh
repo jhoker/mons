@@ -62,9 +62,10 @@ echo -e " [\e[36m•3\e[0m] Vless Menu"
 echo -e " [\e[36m•4\e[0m] Shadowsocks GRPC"
 echo -e " [\e[36m•5\e[0m] Trojan WSxGRPC"
 echo -e " [\e[36m•6\e[0m] WireGuard Menu"
-echo -e " [\e[36m•7\e[0m] SYSTEM Menu"
-echo -e " [\e[36m•8\e[0m] Status Service"
-echo -e " [\e[36m•9\e[0m] Clear RAM Cache"
+echo -e " [\e[36m•7\e[0m] L2TP Menu"
+echo -e " [\e[36m•8\e[0m] SYSTEM Menu"
+echo -e " [\e[36m•9\e[0m] Status Service"
+echo -e " [\e[36m•10\e[0m] Clear RAM Cache"
 echo -e   ""
 read -p " Select menu :  "  opt
 echo -e   ""
@@ -75,8 +76,9 @@ case $opt in
 4) clear ; m-ssws ;;
 5) clear ; m-trojan ;;
 6) clear ; m-wg ;;
-7) clear ; m-system ;;
-8) clear ; running ;;
-9) clear ; clearcache ;;
+7) clear ; l2tp ;;
+8) clear ; m-system ;;
+9) clear ; running ;;
+10) clear ; clearcache ;;
 x) exit ;;
 esac
