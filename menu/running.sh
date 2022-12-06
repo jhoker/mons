@@ -65,7 +65,6 @@ else
 fi
 
 # STATUS SERVICE WIREGUARD
-swg=$(systemctl status wg-quick@wg0 | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
 if [[ $swg == "active" ]]; then
   status_wg=" ${GREEN}Running ${NC}( No Error )${NC}"
 else
