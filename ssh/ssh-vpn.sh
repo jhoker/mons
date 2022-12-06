@@ -315,6 +315,7 @@ wget -O auto-reboot "https://raw.githubusercontent.com/jhoker/mons/main/menu/aut
 wget -O restart "https://raw.githubusercontent.com/jhoker/mons/main/menu/restart.sh"
 wget -O bw "https://raw.githubusercontent.com/jhoker/mons/main/menu/bw.sh"
 wget -O l2tp "https://raw.githubusercontent.com/jhoker/mons/main/menu/l2tp.sh"
+wget -O pptp "https://raw.githubusercontent.com/jhoker/mons/main/menu/pptp.sh"
 
 # change port
 wget -O port-ssl "https://raw.githubusercontent.com/jhoker/mons/main/port/port-ssl.sh"
@@ -328,6 +329,7 @@ wget -O asu "https://raw.githubusercontent.com/jhoker/mons/main/asu.sh"
 wget -O sshws "https://raw.githubusercontent.com/jhoker/mons/main/ssh/sshws.sh"
 
 chmod +x menu
+chmod +x pptp
 chmod +x l2tp
 chmod +x limit-speed
 chmod +x m-vmess
