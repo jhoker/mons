@@ -120,7 +120,7 @@ rm tools.sh
 clear
 yellow "Tambah Domain Buat vmess/vless/trojan dll"
 echo " "
-read -e " Auto Pointing Domain "
+read -e "Auto Pointing Domain"
 echo "IP=" > /var/lib/SIJA/ipvps.conf
 wget https://raw.githubusercontent.com/jhoker/snutz/main/cf.sh && chmod +x cf.sh && ./cf.sh
 clear
