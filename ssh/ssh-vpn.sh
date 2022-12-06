@@ -289,6 +289,7 @@ wget -O m-trojan "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-troj
 wget -O m-sshovpn "https://raw.githubusercontent.com/jhoker/mons/main/menu/m-sshovpn.sh"
 wget -O usernew "https://raw.githubusercontent.com/jhoker/mons/main/ssh/usernew.sh"
 wget -O trial "https://raw.githubusercontent.com/jhoker/mons/main/ssh/trial.sh"
+wget -O limit-speed "https://raw.githubusercontent.com/jhoker/snutz/main/limit-speed.sh"
 wget -O renew "https://raw.githubusercontent.com/jhoker/mons/main/ssh/renew.sh"
 wget -O hapus "https://raw.githubusercontent.com/jhoker/mons/main/ssh/hapus.sh"
 wget -O cek "https://raw.githubusercontent.com/jhoker/mons/main/ssh/cek.sh"
@@ -326,6 +327,7 @@ wget -O asu "https://raw.githubusercontent.com/jhoker/mons/main/asu.sh"
 wget -O sshws "https://raw.githubusercontent.com/jhoker/mons/main/ssh/sshws.sh"
 
 chmod +x menu
+chmod +x limit-speed
 chmod +x m-vmess
 chmod +x m-wg
 chmod +x m-vless
