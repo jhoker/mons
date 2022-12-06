@@ -97,7 +97,7 @@ clear
 echo -e ""
 echo -e "======-WIREGUARD-======"
 echo -e "Remarks  : $CLIENT_NAME"
-echo -e "IP/Host  : $MYIP"
+echo -e "IP/Host  : $SERVER_PUB_IP"
 echo -e "Domain   : $domain"
 echo -e "Port     : $portwg"
 echo -e "Created  : $hariini"
