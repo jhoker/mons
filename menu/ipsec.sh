@@ -2,8 +2,25 @@
 # Debian 9 & 10 64bit
 # Ubuntu 18.04 & 20.04 bit
 # Centos 7 & 8 64bit 
-# By HarisNET
+# Mod By SL
+# SL
+# ==========================================
+# Color
+RED='\033[0;31m'
+NC='\033[0m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHT='\033[0;37m'
+# ==========================================
+# Getting
+MYIP=$(wget -qO- ipinfo.io/ip);
+echo "Checking VPS"
 # ==================================================
+# Link Hosting Kalian
+akbarvpn="raw.githubusercontent.com/fisabiliyusri/Mantap/main/ipsec"
 
 VPN_IPSEC_PSK='myvpn'
 NET_IFACE=$(ip -o $NET_IFACE -4 route show to default | awk '{print $5}');
@@ -19,7 +36,7 @@ mkdir -p /opt/src
 cd /opt/src
 
 bigecho "Trying to auto discover IP of this server..."
-PUBLIC_IP=$(wget -qO- https://icanhazip.com/);
+PUBLIC_IP=$(wget -qO- ipinfo.io/ip);
 
 bigecho "Installing packages required for the VPN..."
 if [[ ${OS} == "centos" ]]; then
@@ -55,7 +72,7 @@ apt-get -y install libnss3-dev libnspr4-dev pkg-config \
 fi
 bigecho "Compiling and installing Libreswan..."
 
-SWAN_VER=4.9
+SWAN_VER=3.32
 swan_file="libreswan-$SWAN_VER.tar.gz"
 swan_url1="https://github.com/libreswan/libreswan/archive/v$SWAN_VER.tar.gz"
 swan_url2="https://download.libreswan.org/$swan_file"
@@ -277,12 +294,12 @@ mkdir -p /run/pluto
 service fail2ban restart 2>/dev/null
 service ipsec restart 2>/dev/null
 service xl2tpd restart 2>/dev/null
-wget -O /usr/bin/add-l2tp https://raw.githubusercontent.com/jhoker/snutz/main/add-l2tp.sh && chmod +x /usr/bin/add-l2tp
-wget -O /usr/bin/del-l2tp https://raw.githubusercontent.com/jhoker/snutz/main/del-l2tp.sh && chmod +x /usr/bin/del-l2tp
-wget -O /usr/bin/add-pptp https://raw.githubusercontent.com/jhoker/snutz/main/add-pptp.sh && chmod +x /usr/bin/add-pptp
-wget -O /usr/bin/del-pptp https://raw.githubusercontent.com/jhoker/snutz/main/del-pptp.sh && chmod +x /usr/bin/del-pptp
-wget -O /usr/bin/renew-pptp https://raw.githubusercontent.com/jhoker/snutz/main/renew-pptp.sh && chmod +x /usr/bin/renew-pptp
-wget -O /usr/bin/renew-l2tp https://raw.githubusercontent.com/jhoker/snutz/main/renew-l2tp.sh && chmod +x /usr/bin/renew-l2tp
+wget -O /usr/bin/addl2tp https://${akbarvpn}/addl2tp.sh && chmod +x /usr/bin/addl2tp
+wget -O /usr/bin/dell2tp https://${akbarvpn}/dell2tp.sh && chmod +x /usr/bin/dell2tp
+wget -O /usr/bin/addpptp https://${akbarvpn}/addpptp.sh && chmod +x /usr/bin/addpptp
+wget -O /usr/bin/delpptp https://${akbarvpn}/delpptp.sh && chmod +x /usr/bin/delpptp
+wget -O /usr/bin/renewpptp https://${akbarvpn}/renewpptp.sh && chmod +x /usr/bin/renewpptp
+wget -O /usr/bin/renewl2tp https://${akbarvpn}/renewl2tp.sh && chmod +x /usr/bin/renewl2tp
 touch /var/lib/SIJA/data-user-l2tp
 touch /var/lib/SIJA/data-user-pptp
 rm -f /root/ipsec.sh
