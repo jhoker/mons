@@ -220,6 +220,7 @@ echo "   - Auto-Reboot		: [ON]"  | tee -a log-install.txt
 echo "   - IPv6			: [OFF]"  | tee -a log-install.txt
 echo "   - Autoreboot On	: $aureb:00 $gg GMT +7" | tee -a log-install.txt
 echo "   - AutoKill Multi Login User" | tee -a log-install.txt
+echo "   - Speed Limit" | tee -a log-install.txt
 echo "   - Auto Delete Expired Account" | tee -a log-install.txt
 echo "   - Fully automatic script" | tee -a log-install.txt
 echo "   - VPS settings" | tee -a log-install.txt
