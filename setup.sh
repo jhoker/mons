@@ -208,6 +208,8 @@ echo "   - Trojan GRPC		: 443" | tee -a log-install.txt
 echo "   - Trojan WS		: 443" | tee -a log-install.txt
 echo "   - Sodosok WS/GRPC      : 443" | tee -a log-install.txt
 echo "   - Wireguard            : 7070"  | tee -a log-install.txt
+echo "   - L2TP/IPSEC VPN       : 1701"  | tee -a log-install.txt
+echo "   - PPTP VPN             : 1732"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "   >>> Server Information & Other Features"  | tee -a log-install.txt
 echo "   - Timezone		: Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
