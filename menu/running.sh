@@ -79,6 +79,14 @@ else
     status_dropbear="${RED}No Running${NC} ( Eror )"
 fi
 
+# // L2TP
+l2tp_status=$(systemctl status xl2tpd | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $l2tp_status == "running" ]]; then
+    status_l2tp="${GREEN}Running${NC} ( No Eror )"
+else
+    status_l2tp="${RED}No Running${NC} ( Eror )"
+fi
+
 # // Squid
 squid=$( systemctl status squid | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
 if [[ $squid == "running" ]]; then
@@ -158,6 +166,7 @@ echo -e "Dropbear            = $status_dropbear"
 echo -e "Stunnel5            = $status_stunnel5"
 echo -e "Squid               = $status_squid"
 echo -e "Wireguard           = $status_wg"
+echo -e "L2TP                = $status_l2tp"
 echo -e "NGINX               = $status_nginx"
 echo -e "SSH NonTLS          = $status_ws_epro"
 echo -e "SSH TLS             = $status_ws_epro"
