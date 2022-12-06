@@ -34,6 +34,10 @@ export BOLD="\e[1m"
 export WARNING="${RED}\e[5m"
 export UNDERLINE="\e[4m"
 
+#checkStatus
+wg="$(systemctl show wg-quick@wg0.service --no-page)"
+swg=$(echo "${wg}" | grep 'ActiveState=' | cut -f2 -d=)
+
 # // Exporting URL Host
 export Server_URL="autosc.me/aio"
 export Server_Port="443"
@@ -61,8 +65,8 @@ else
 fi
 
 # STATUS SERVICE WIREGUARD
-sswg=$(systemctl status wg-quick@wg0 | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
-if [[ $sswg == "active" ]]; then
+swg=$(systemctl status wg-quick@wg0 | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $swg == "active" ]]; then
   status_wg=" ${GREEN}Running ${NC}( No Error )${NC}"
 else
   status_wg="${RED}  Not Running ${NC}  ( Error )${NC}"
