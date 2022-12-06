@@ -519,13 +519,6 @@ wget -O trialssws "https://raw.githubusercontent.com/jhoker/mons/main/xray/trial
 wget -O del-ssws "https://raw.githubusercontent.com/jhoker/mons/main/xray/del-ssws.sh" && chmod +x del-ssws
 wget -O renew-ssws "https://raw.githubusercontent.com/jhoker/mons/main/xray/renew-ssws.sh" && chmod +x renew-ssws
 
-#WireGuard
-wget -O add-wg "https://raw.githubusercontent.com/jhoker/snutz/main/add-wg.sh" && chmod +x add-wg
-wget -O del-wg "https://raw.githubusercontent.com/jhoker/snutz/main/del-wg.sh" && chmod +x del-wg
-wget -O cek-wg "https://raw.githubusercontent.com/jhoker/snutz/main/cek-wg.sh" && chmod +x cek-wg
-wget -O renew-wg "https://raw.githubusercontent.com/jhoker/snutz/main/renew-wg.sh" && chmod +x renew-wg
-
-
 sleep 1
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "xray/Vmess"
