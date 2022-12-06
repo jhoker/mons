@@ -316,6 +316,9 @@ wget -O restart "https://raw.githubusercontent.com/jhoker/mons/main/menu/restart
 wget -O bw "https://raw.githubusercontent.com/jhoker/mons/main/menu/bw.sh"
 wget -O l2tp "https://raw.githubusercontent.com/jhoker/mons/main/menu/l2tp.sh"
 wget -O pptp "https://raw.githubusercontent.com/jhoker/mons/main/menu/pptp.sh"
+wget -O add-wg "https://raw.githubusercontent.com/jhoker/mons/main/menu/addwg.sh"
+wget -O del-wg "https://raw.githubusercontent.com/jhoker/mons/main/menu/delwg.sh"
+wget -O renewwg "https://raw.githubusercontent.com/jhoker/mons/main/menu/renewwg.sh"
 
 # change port
 wget -O port-ssl "https://raw.githubusercontent.com/jhoker/mons/main/port/port-ssl.sh"
